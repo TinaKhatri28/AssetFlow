@@ -129,7 +129,7 @@ export default function AssetFlowLanding() {
           --radius:2px;
           background: var(--white);
           color: var(--black);
-          font-family: 'Inter', sans-serif;
+          font-family: 'Calibri', 'Segoe UI', sans-serif;
           overflow-x: hidden;
         }
         .af-root, .af-root * { box-sizing: border-box; }
@@ -168,7 +168,7 @@ export default function AssetFlowLanding() {
 
         .af-root .btn3d {
           display: inline-flex; align-items: center; gap: 8px;
-          font-family: 'Inter'; font-weight: 800; font-size: 14px;
+          font-family: 'Calibri', sans-serif; font-weight: 800; font-size: 14px;
           text-transform: uppercase; letter-spacing: 0.03em;
           background: var(--yellow); color: var(--black);
           border: 3px solid var(--black); padding: 14px 26px;
@@ -274,7 +274,7 @@ export default function AssetFlowLanding() {
         @media (max-width: 900px) { .af-root .problem-grid { grid-template-columns: repeat(2,1fr); } }
         .af-root .problem-card { background: var(--white); padding: 26px 22px; min-height: 170px; position: relative; }
         .af-root .problem-card .num { font-family: 'JetBrains Mono'; font-size: 12px; color: var(--gray); }
-        .af-root .problem-card h3 { font-family: 'Inter'; font-weight: 800; font-size: 16px; text-transform: none; margin: 14px 0 8px; }
+        .af-root .problem-card h3 { font-family: 'Calibri', sans-serif; font-weight: 800; font-size: 16px; text-transform: none; margin: 14px 0 8px; }
         .af-root .problem-card p { font-size: 13px; color: var(--gray); line-height: 1.55; margin: 0; }
         .af-root .problem-card::after {
           content: ""; position: absolute; bottom: 0; left: 0; height: 5px; width: 100%;
@@ -292,7 +292,7 @@ export default function AssetFlowLanding() {
         }
         .af-root .module:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--black); }
         .af-root .module .code { font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700; color: var(--gray); }
-        .af-root .module h3 { font-family: 'Inter'; font-weight: 800; font-size: 18px; text-transform: none; margin: 10px 0 8px; }
+        .af-root .module h3 { font-family: 'Calibri', sans-serif; font-weight: 800; font-size: 18px; text-transform: none; margin: 10px 0 8px; }
         .af-root .module p { font-size: 13px; color: var(--gray); line-height: 1.55; margin: 0; }
         .af-root .module .chip {
           display: inline-block; margin-top: 14px; font-family: 'JetBrains Mono'; font-size: 11px;
@@ -304,7 +304,7 @@ export default function AssetFlowLanding() {
         .af-root .pipe-step:last-child { border-right: none; }
         .af-root .pipe-step:nth-child(odd) { background: var(--paper); }
         .af-root .pipe-step .n { font-family: 'JetBrains Mono'; font-size: 11px; color: var(--gray); }
-        .af-root .pipe-step h4 { font-family: 'Inter'; font-weight: 800; font-size: 14px; text-transform: none; margin-top: 8px; }
+        .af-root .pipe-step h4 { font-family: 'Calibri', sans-serif; font-weight: 800; font-size: 14px; text-transform: none; margin-top: 8px; }
         .af-root .pipe-step::after {
           content: "→"; position: absolute; right: -14px; top: 50%; transform: translateY(-50%);
           font-family: 'JetBrains Mono'; font-weight: 700; color: var(--black); z-index: 2; background: var(--yellow);
@@ -351,9 +351,6 @@ export default function AssetFlowLanding() {
                         <div style={{ display: "flex", gap: "12px" }}>
                             <a href="/login" className="btn3d small ghost">
                                 Sign In
-                            </a>
-                            <a href="#cta" className="btn3d small">
-                                Request Demo
                             </a>
                         </div>
                     </nav>
@@ -551,8 +548,8 @@ export default function AssetFlowLanding() {
                         Tag it once. <span className="hl fancy-italic" style={{ textTransform: "lowercase" }}>Never lose it again.</span>
                     </h2>
                     <p>See AssetFlow running on your own department structure in a 20-minute walkthrough.</p>
-                    <a href="#" className="btn3d">
-                        Request a demo
+                    <a href="/login" className="btn3d">
+                        Sign In (Admin)
                     </a>
                 </div>
             </div>
