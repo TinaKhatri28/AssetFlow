@@ -18,7 +18,7 @@ export default function AuditsPage() {
   const discrepanciesCount = items.filter((item) => item.status === "Missing" || item.status === "Damaged").length;
 
   return (
-    <div className="space-y-6 max-w-4xl font-sans">
+    <div className="space-y-6 w-full font-sans">
       {/* Audit Banner */}
       <div className="bg-black text-white p-6 border-3 border-black rounded shadow-[4px_4px_0_#111110]">
         <h2 className="font-mono text-base font-black uppercase text-yellow">

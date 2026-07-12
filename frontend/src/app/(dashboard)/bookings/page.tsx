@@ -79,7 +79,7 @@ export default function BookingsPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl font-sans">
+    <div className="space-y-6 w-full font-sans">
       {/* Title block matching Screen 6 */}
       <div className="bg-white p-6 border-3 border-black rounded shadow-[4px_4px_0_#111110] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>

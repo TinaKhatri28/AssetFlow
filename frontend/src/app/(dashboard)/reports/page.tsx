@@ -20,7 +20,7 @@ export default function ReportsPage() {
   ]);
 
   return (
-    <div className="space-y-8 font-sans max-w-6xl">
+    <div className="space-y-8 font-sans w-full">
       {/* Charts Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Utilization Bar Chart */}

@@ -54,7 +54,7 @@ export default function AllocationsPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl font-sans">
+    <div className="space-y-6 w-full font-sans">
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
         {/* Form and Selection Column */}
         <div className="lg:col-span-3 space-y-6">
