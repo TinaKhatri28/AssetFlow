@@ -13,15 +13,14 @@ export default function DashboardLayout({
 
   const navItems = [
     { name: "Dashboard", href: "/dashboard", icon: "📊" },
+    { name: "Organization setup", href: "/org-setup", icon: "🏢" },
     { name: "Assets", href: "/assets", icon: "📦" },
-    { name: "Allocations", href: "/allocations", icon: "🤝" },
-    { name: "Bookings", href: "/bookings", icon: "📅" },
-    { name: "Audits", href: "/audits", icon: "🔍" },
+    { name: "Allocation & Transfer", href: "/allocations", icon: "🤝" },
+    { name: "Resource Booking", href: "/bookings", icon: "📅" },
     { name: "Maintenance", href: "/maintenance", icon: "🔧" },
-    { name: "Transfers", href: "/transfers", icon: "🔄" },
-    { name: "Returns", href: "/returns", icon: "📥" },
+    { name: "Audit", href: "/audits", icon: "🔍" },
     { name: "Reports", href: "/reports", icon: "📈" },
-    { name: "Settings", href: "/settings", icon: "⚙️" },
+    { name: "Notifications", href: "/notifications", icon: "🔔" },
   ];
 
   const handleLogout = () => {

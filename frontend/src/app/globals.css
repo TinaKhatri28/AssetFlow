@@ -1,3 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700;800&family=Playfair+Display:ital,wght@1,400;1,600;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .font-mono-jb {
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .font-display-archivo {
+    font-family: 'Archivo Black', sans-serif;
+  }
+  .font-serif-playfair {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+  }
+  .grid-bg {
+    background-color: #f7f5ee;
+    background-image: 
+      linear-gradient(to right, rgba(17, 17, 16, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(17, 17, 16, 0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .hazard-bar {
+    height: 10px;
+    background: repeating-linear-gradient(135deg, #111110 0 14px, #ffd400 14px 28px);
+  }
+  .neo-card {
+    background: #ffffff;
+    border: 3px solid #111110;
+    border-radius: 6px;
+    box-shadow: 5px 5px 0 #111110;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .neo-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 #111110;
+  }
+  .neo-btn {
+    border: 3px solid #111110;
+    border-radius: 6px;
+    box-shadow: 4px 4px 0 #111110;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+  .neo-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #111110;
+  }
+  .neo-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 #111110;
+  }
+  .btn3d {
+    @apply neo-btn;
+  }
+}

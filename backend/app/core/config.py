@@ -19,11 +19,18 @@ class Settings(BaseSettings):
     POSTGRES_DB: str = "assetflow"
     POSTGRES_PORT: str = "5432"
     
+    DATABASE_URL: Optional[str] = None
+    
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"
     
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
+        if self.DATABASE_URL:
+            # SQLAlchemy requires postgresql://, but some hosts like Neon/Render use postgres://
+            if self.DATABASE_URL.startswith("postgres://"):
+                return self.DATABASE_URL.replace("postgres://", "postgresql://", 1)
+            return self.DATABASE_URL
         return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
         
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", case_sensitive=True)

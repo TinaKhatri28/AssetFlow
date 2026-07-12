@@ -86,7 +86,13 @@ export default function AssetFlowLanding() {
     return (
         <div className="af-root">
             <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@1,400;1,600;1,700&display=swap');
+
+        .fancy-italic {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic;
+          font-weight: 600;
+        }
 
         .af-root {
           --black:#111110;
@@ -354,7 +360,7 @@ export default function AssetFlowLanding() {
                             <br />
                             <span className="hl">tagged.</span>
                             <br />
-                            Tracked. Accounted for.
+                            Tracked. <span className="fancy-italic">Accounted for.</span>
                         </h1>
                         <p className="sub">
                             Laptops go missing. Rooms get double-booked. Vehicles get allocated twice.
@@ -409,7 +415,7 @@ export default function AssetFlowLanding() {
                 <div className="wrap">
                     <div className="section-head">
                         <div className="kicker">THE PROBLEM</div>
-                        <h2>Spreadsheets don&rsquo;t know where your stuff is.</h2>
+                        <h2>Spreadsheets don&rsquo;t know <span className="fancy-italic" style={{ textTransform: "lowercase" }}>where</span> your stuff is.</h2>
                         <p className="lead">
                             Most companies still run asset tracking on Excel and paper trails. That works
                             until it doesn&rsquo;t.
@@ -440,7 +446,7 @@ export default function AssetFlowLanding() {
                 <div className="wrap">
                     <div className="section-head">
                         <div className="kicker">THE SYSTEM</div>
-                        <h2>One record. Every asset, every move.</h2>
+                        <h2>One record. Every asset, <span className="fancy-italic" style={{ textTransform: "lowercase" }}>every move.</span></h2>
                         <p className="lead">
                             AssetFlow centralizes registration, allocation, transfers, bookings, maintenance,
                             and audits into a single source of truth.
@@ -470,7 +476,7 @@ export default function AssetFlowLanding() {
                 <div className="wrap">
                     <div className="section-head">
                         <div className="kicker">HOW IT FLOWS</div>
-                        <h2>From purchase order to retirement.</h2>
+                        <h2>From purchase order <span className="fancy-italic" style={{ textTransform: "lowercase" }}>to retirement.</span></h2>
                         <p className="lead">The full lifecycle of an asset, tracked automatically at every step.</p>
                     </div>
                     <div className="pipeline">
@@ -495,7 +501,7 @@ export default function AssetFlowLanding() {
                 <div className="wrap">
                     <div className="section-head">
                         <div className="kicker">THE DASHBOARD</div>
-                        <h2>Live numbers, not a stale export.</h2>
+                        <h2>Live numbers, <span className="fancy-italic" style={{ textTransform: "lowercase" }}>not</span> a stale export.</h2>
                         <p className="lead">Every card updates the moment something changes on the floor.</p>
                     </div>
                     <div className="dash">
@@ -516,7 +522,7 @@ export default function AssetFlowLanding() {
                         READY WHEN YOU ARE
                     </div>
                     <h2>
-                        Tag it once. <span className="hl">Never lose it again.</span>
+                        Tag it once. <span className="hl fancy-italic" style={{ textTransform: "lowercase" }}>Never lose it again.</span>
                     </h2>
                     <p>See AssetFlow running on your own department structure in a 20-minute walkthrough.</p>
                     <a href="#" className="btn3d">
