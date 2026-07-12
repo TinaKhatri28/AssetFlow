@@ -349,7 +349,7 @@ export default function AssetFlowLanding() {
                             <a href="#dashboard">Dashboard</a>
                         </div>
                         <div style={{ display: "flex", gap: "12px" }}>
-                            <a href="/login" className="btn3d small ghost">
+                            <a href="/login" className="btn3d small">
                                 Sign In
                             </a>
                         </div>
