@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function LoginPage() {
     // Check for mock admin credentials first
     if (email === "admin@assetflow.com" && password === "admin123") {
       document.cookie = "assetflow_token=mock_admin_token; path=/";
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
       setLoading(false);
       return;
     }
@@ -31,72 +32,98 @@ export default function LoginPage() {
       });
 
       if (!res.ok) {
-        throw new Error("Invalid email or password. Hint: Use admin@assetflow.com and admin123 to log in.");
+        throw new Error("Invalid credentials");
       }
 
       const data = await res.json();
       document.cookie = `assetflow_token=${data.access_token}; path=/`;
-      router.push("/dashboard");
+      window.location.href = "/dashboard";
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      setError("Invalid email or password.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", alignItems: "center", justifyContent: "center", background: "#FAFAF6" }}>
+    <div className="grid-bg flex min-h-screen items-center justify-center p-4 font-sans">
       <form
         onSubmit={handleSubmit}
-        style={{ width: 360, padding: 32, border: "3px solid #111110", borderRadius: 6, background: "#fff", boxShadow: "8px 8px 0 #111110" }}
+        className="neo-card w-full max-w-[400px] p-8 bg-white space-y-5"
       >
-        <h1 style={{ fontSize: 22, marginBottom: 24, fontFamily: "sans-serif", textTransform: "uppercase" }}>
-          Sign in to AssetFlow
-        </h1>
+        {/* Logo and Title */}
+        <div className="text-center">
+          <div className="h-16 w-16 bg-[#111110] text-[#ffd400] rounded-full border-3 border-black flex items-center justify-center font-display-archivo text-xl font-black mx-auto mb-4 shadow-[2px_2px_0_#111110]">
+            AF
+          </div>
+          <h1 className="font-mono-jb text-lg font-black uppercase tracking-tight text-black">
+            AssetFlow &ndash; login
+          </h1>
+        </div>
 
-        <label style={{ display: "block", marginBottom: 12 }}>
-          <span style={{ fontSize: 13, fontWeight: 600 }}>Email</span>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "100%", padding: "10px 12px", marginTop: 6, border: "2px solid #111110", borderRadius: 2 }}
-          />
-        </label>
+        {/* Inputs */}
+        <div className="space-y-4">
+          <label className="block space-y-1">
+            <span className="text-xs font-bold font-mono-jb uppercase text-gray">Email</span>
+            <input
+              type="email"
+              required
+              placeholder="name@company.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-3 py-2.5 border-2 border-black rounded-sm font-mono-jb text-xs outline-none focus:bg-[#ffd400]/10"
+            />
+          </label>
 
-        <label style={{ display: "block", marginBottom: 20 }}>
-          <span style={{ fontSize: 13, fontWeight: 600 }}>Password</span>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", padding: "10px 12px", marginTop: 6, border: "2px solid #111110", borderRadius: 2 }}
-          />
-        </label>
+          <label className="block space-y-1">
+            <span className="text-xs font-bold font-mono-jb uppercase text-gray">Password</span>
+            <input
+              type="password"
+              required
+              placeholder="**********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-3 py-2.5 border-2 border-black rounded-sm font-mono-jb text-xs outline-none focus:bg-[#ffd400]/10"
+            />
+            <Link
+              href="/forgot-password"
+              className="block text-right font-mono-jb text-[10px] text-zinc-500 font-extrabold uppercase hover:underline pt-1"
+            >
+              Forgot password?
+            </Link>
+          </label>
+        </div>
 
+        {/* Error Alert */}
         {error && (
-          <p style={{ color: "#b00020", fontSize: 13, marginBottom: 16 }}>{error}</p>
+          <div className="bg-red-100 text-red-700 border-2 border-red-400 p-3 rounded-sm font-mono-jb text-xs font-bold">
+            ⚠️ {error}
+          </div>
         )}
 
+        {/* Submit */}
         <button
           type="submit"
           disabled={loading}
-          style={{
-            width: "100%",
-            padding: "12px 0",
-            background: "#FFD400",
-            border: "3px solid #111110",
-            borderRadius: 2,
-            fontWeight: 800,
-            textTransform: "uppercase",
-            boxShadow: "4px 4px 0 #111110",
-            cursor: loading ? "not-allowed" : "pointer",
-          }}
+          className="neo-btn w-full bg-[#ffd400] text-black py-3 font-mono-jb font-black uppercase text-xs shadow-[3px_3px_0_#111110] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? "Signing in..." : "Sign in"}
+          {loading ? "Verifying..." : "Login"}
         </button>
+
+        <hr className="border-t-2 border-black/10 my-4" />
+
+        {/* Signup redirection note */}
+        <div className="bg-paper border-2 border-black/10 p-3.5 rounded-sm space-y-2">
+          <p className="text-[11px] font-mono-jb text-zinc-600 leading-relaxed font-bold">
+            New here? Sign up creates an employee account, admin roles assigned later.
+          </p>
+          <Link
+            href="/signup"
+            className="neo-btn w-full bg-white text-black py-2.5 font-mono-jb font-bold uppercase text-[10px] shadow-[2px_2px_0_#111110] inline-block text-center"
+          >
+            Create Account
+          </Link>
+        </div>
       </form>
     </div>
   );

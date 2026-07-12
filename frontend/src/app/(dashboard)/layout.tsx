@@ -26,7 +26,7 @@ export default function DashboardLayout({
   const handleLogout = () => {
     // Delete cookie and redirect to login
     document.cookie = "assetflow_token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-    router.push("/login");
+    window.location.href = "/login";
   };
 
   return (
