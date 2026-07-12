@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 type Status = "Allocated" | "Available" | "Maintenance" | "Overdue";
@@ -57,10 +57,52 @@ const ASSETS: Asset[] = [
 ];
 
 export default function AssetFlowDashboard() {
-  const [stats] = useState<Stat[]>(STATS);
+  const [stats, setStats] = useState<Stat[]>(STATS);
   const [activities] = useState<Activity[]>(ACTIVITIES);
   const [assets] = useState<Asset[]>(ASSETS);
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    // 1. Fetch Top Stats
+    fetch("http://127.0.0.1:8000/api/v1/dashboard/stats")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          setStats([
+            { label: "Available", count: String(data.total_assets - data.allocated_assets) },
+            { label: "Allocated", count: String(data.allocated_assets), highlight: true },
+            { label: "Under Maint.", count: String(data.maintenance_assets || 0) },
+            { label: "Active Bookings", count: String(data.active_bookings || 0) },
+            { label: "Pending Transfers", count: "0" },
+            { label: "Upcoming Returns", count: "0" },
+          ]);
+        }
+      })
+      .catch((err) => console.error("Failed to fetch stats", err));
+
+    // 2. Fetch Assets List
+    fetch("http://127.0.0.1:8000/api/v1/assets/")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && Array.isArray(data)) {
+          const mappedAssets = data.map((a: any) => {
+            let mappedStatus = "Available";
+            if (a.status === "ALLOCATED") mappedStatus = "Allocated";
+            if (a.status === "UNDER_MAINTENANCE") mappedStatus = "Maintenance";
+            
+            return {
+              tag: a.asset_tag,
+              name: a.name,
+              status: mappedStatus as Status,
+              holder: "-", // (Will build this connection in Phase 6)
+              location: a.location || "Unassigned"
+            };
+          });
+          setAssets(mappedAssets);
+        }
+      })
+      .catch((err) => console.error("Failed to fetch assets", err));
+  }, []);
 
   const filteredAssets = assets.filter((asset) =>
     asset.tag.toLowerCase().includes(search.toLowerCase()) ||

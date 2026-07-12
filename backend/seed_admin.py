@@ -3,6 +3,7 @@ from app.db.session import SessionLocal
 from app.modules.users.models import User, Department, RoleEnum
 from app.modules.categories.models import Category
 from app.modules.assets.models import Asset
+from app.modules.bookings.models import Booking
 from app.core.security import get_password_hash
 from app.db.base import Base
 from app.db.session import engine

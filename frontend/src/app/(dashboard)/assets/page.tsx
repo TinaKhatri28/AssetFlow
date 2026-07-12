@@ -16,6 +16,7 @@ function AssetsPageContent() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedStatus, setSelectedStatus] = useState("All");
+  const [assets, setAssets] = useState<any[]>([]);
   
   const [showModal, setShowModal] = useState(false);
   const [newTag, setNewTag] = useState("");
@@ -24,19 +25,36 @@ function AssetsPageContent() {
   const [newStatus, setNewStatus] = useState("Available");
   const [newLocation, setNewLocation] = useState("");
 
-  const [assets, setAssets] = useState<Asset[]>([
-    { tag: "AF-0012", name: "Dell laptop", category: "Electronics", status: "Allocated", location: "Employee desk" },
-    { tag: "AF-0062", name: "Projector", category: "Audio Visual", status: "Maintenance", location: "HQ Floor 2" },
-    { tag: "AF-0231", name: "Office chair", category: "Furniture", status: "Available", location: "Warehouse" },
-  ]);
-
   useEffect(() => {
     if (searchParams.get("register") === "true") {
       setShowModal(true);
     }
   }, [searchParams]);
 
-  const categories = ["All", "Electronics", "Audio Visual", "Furniture"];
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/v1/assets/")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && Array.isArray(data)) {
+          const mapped = data.map((a: any) => {
+            let mappedStatus = "Available";
+            if (a.status === "ALLOCATED") mappedStatus = "Allocated";
+            if (a.status === "UNDER_MAINTENANCE") mappedStatus = "Maintenance";
+
+            return {
+              tag: a.asset_tag,
+              name: a.name,
+              category: "Hardware", // Asset API currently returns category_id
+              status: mappedStatus,
+              location: a.location || "Unassigned",
+            };
+          });
+          setAssets(mapped);
+        }
+      });
+  }, []);
+
+  const categories = ["All", "Hardware", "Electronics", "Audio Visual", "Furniture"];
   const statuses = ["All", "Available", "Allocated", "Maintenance"];
 
   const filteredAssets = assets.filter((asset) => {

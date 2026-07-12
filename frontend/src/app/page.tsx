@@ -20,12 +20,7 @@ type Counter = {
     dark?: boolean;
 };
 
-const COUNTERS: Counter[] = [
-    { label: "Total assets", target: 1284 },
-    { label: "Allocated", target: 962, dark: true },
-    { label: "Maintenance today", target: 7 },
-    { label: "Active bookings", target: 23 },
-];
+// Counters are now dynamically generated inside the component
 
 const TICKER_ITEMS: { text: string; bold: string }[] = [
     { text: "allocated to J. Mehta — IT Dept", bold: "AF-0231" },
@@ -82,6 +77,37 @@ export default function AssetFlowLanding() {
         () => [Math.random() * 3, Math.random() * 3, Math.random() * 3],
         []
     );
+
+    const [stats, setStats] = useState({
+        total_assets: 0,
+        allocated_assets: 0,
+        maintenance_assets: 0,
+        active_bookings: 0
+    });
+
+    useEffect(() => {
+        // Fetch real data from our FastAPI backend
+        fetch("http://127.0.0.1:8000/api/v1/dashboard/stats")
+            .then(res => res.json())
+            .then(data => {
+                if (data) {
+                    setStats({
+                        total_assets: data.total_assets || 0,
+                        allocated_assets: data.allocated_assets || 0,
+                        maintenance_assets: data.maintenance_assets || 0,
+                        active_bookings: data.active_bookings || 0
+                    });
+                }
+            })
+            .catch(err => console.error("Failed to fetch dashboard stats", err));
+    }, []);
+
+    const dynamicCounters: Counter[] = [
+        { label: "Total assets", target: stats.total_assets },
+        { label: "Allocated", target: stats.allocated_assets, dark: true },
+        { label: "Maintenance today", target: stats.maintenance_assets },
+        { label: "Active bookings", target: stats.active_bookings },
+    ];
 
     return (
         <div className="af-root">
@@ -505,7 +531,7 @@ export default function AssetFlowLanding() {
                         <p className="lead">Every card updates the moment something changes on the floor.</p>
                     </div>
                     <div className="dash">
-                        {COUNTERS.map((c) => (
+                        {dynamicCounters.map((c) => (
                             <div className={`dash-card${c.dark ? " hl" : ""}`} key={c.label}>
                                 <div className="label">{c.label}</div>
                                 <AnimatedCounter target={c.target} />
