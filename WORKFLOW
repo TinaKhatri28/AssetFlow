@@ -1,5 +1,42 @@
-# AssetFlow System Workflow
+# How AssetFlow Works: A Simple Guide
 
-Below is the visual workflow diagram for the Asset & Resource Management System.
+Welcome to AssetFlow! This platform is designed to make managing your organization's equipment, rooms, and vehicles as easy as possible.
 
-![AssetFlow Workflow](workflow.png)
+Everything you need to do starts from one central place. Here is a simple breakdown of how the system works:
+
+## 1. Getting Started
+* **Login:** When you open AssetFlow, you will be prompted to log in.
+* **Dashboard:** Once your login is validated, you will land on the **Dashboard Home**. This is your control center where you can see live stats and choose what you want to do next.
+
+## 2. The 5 Core Actions
+From the Dashboard, you can perform five main actions depending on what you need to accomplish:
+
+### Register (Adding New Items)
+When your organization buys new equipment, you need to put it into the system.
+* **Action:** Click "Register" and fill out the details for the new asset.
+* **Result:** The item is officially added to the database and is now visible to everyone.
+
+### Allocate (Assigning Equipment)
+When an employee needs a laptop or a vehicle for an extended period of time.
+* **Action:** Request to assign the asset to an employee.
+* **Approval:** Because it's a major assignment, this request goes to a Manager for Approval.
+* **Result:** Once approved, the asset is officially "Allocated" and ready for the employee to use.
+
+### Book (Reserving Shared Rooms/Items)
+When you need a conference room or a shared projector for a specific time slot.
+* **Action:** Check the calendar and reserve an available time slot.
+* **Result:** The system instantly books the slot for you. It automatically prevents double-booking, so you never have to worry about overlap!
+
+### Maintain (Reporting Broken Items)
+When an item breaks or needs routine service.
+* **Action:** Report the issue through the Maintenance tab.
+* **Approval:** A Manager reviews and approves the repair request.
+* **Result:** The item's status is changed to "In Repair", meaning nobody else can accidentally book or allocate it until it's fixed.
+
+### Return (Giving Items Back)
+When an employee is finished using an allocated asset.
+* **Action:** Click "Return" and log the current physical condition of the item.
+* **Result:** The system clears the employee's name and makes the item "Available" for the next person to use.
+
+---
+*AssetFlow ensures that everyone knows exactly where everything is, what condition it's in, and who is using it!*
