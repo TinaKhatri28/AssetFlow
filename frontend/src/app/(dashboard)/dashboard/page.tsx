@@ -59,7 +59,7 @@ const ASSETS: Asset[] = [
 export default function AssetFlowDashboard() {
   const [stats, setStats] = useState<Stat[]>(STATS);
   const [activities] = useState<Activity[]>(ACTIVITIES);
-  const [assets] = useState<Asset[]>(ASSETS);
+  const [assets, setAssets] = useState<Asset[]>(ASSETS);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
