@@ -17,6 +17,7 @@ class Allocation(Base):
     
     # Time tracking
     allocation_date: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), nullable=False)
+    expected_return_date: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     return_date: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     
     notes: Mapped[Optional[str]] = mapped_column(String, nullable=True)

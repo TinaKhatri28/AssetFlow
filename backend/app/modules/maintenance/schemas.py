@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
 from app.modules.maintenance.models import MaintenanceStatus
-from datetime import datetime
 
 class MaintenanceCreate(BaseModel):
     asset_id: int
@@ -20,8 +19,6 @@ class MaintenanceResponse(BaseModel):
     status: MaintenanceStatus
     repair_notes: Optional[str] = None
     cost: Optional[float] = None
-    created_at: datetime
-    updated_at: datetime
-
+    
     class Config:
         from_attributes = True

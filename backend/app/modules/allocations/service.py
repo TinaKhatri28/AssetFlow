@@ -21,6 +21,7 @@ def allocate_asset(db: Session, alloc_in: schemas.AllocationCreate, admin_user_i
         user_id=alloc_in.user_id,
         allocated_by_id=admin_user_id,
         notes=alloc_in.notes,
+        expected_return_date=alloc_in.expected_return_date,
         is_active=True
     )
     return repository.create_allocation(db, new_allocation)

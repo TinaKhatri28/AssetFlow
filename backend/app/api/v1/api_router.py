@@ -9,6 +9,12 @@ from app.modules.allocations import routes as allocations_routes
 from app.modules.bookings import routes as bookings_routes
 from app.modules.maintenance import routes as maintenance_routes
 from app.modules.audits import routes as audits_routes
+from app.modules.transfers import routes as transfers_routes
+from app.modules.returns import routes as returns_routes
+from app.modules.notifications import routes as notifications_routes
+from app.modules.reports import routes as reports_routes
+from app.modules.activity_logs import routes as activity_logs_routes
+
 
 api_router = APIRouter()
 
@@ -25,3 +31,8 @@ api_router.include_router(maintenance_routes.router, prefix="/maintenance", tags
 # Add this to the very bottom of the file
 api_router.include_router(dashboard_routes.router, prefix="/dashboard", tags=["dashboard"])
 api_router.include_router(audits_routes.router, prefix="/audits", tags=["audits"])
+api_router.include_router(transfers_routes.router, prefix="/transfers", tags=["transfers"])
+api_router.include_router(returns_routes.router, prefix="/returns", tags=["returns"])
+api_router.include_router(notifications_routes.router, prefix="/notifications", tags=["notifications"])
+api_router.include_router(reports_routes.router, prefix="/reports", tags=["reports"])
+api_router.include_router(activity_logs_routes.router, prefix="/activity_logs", tags=["activity_logs"])

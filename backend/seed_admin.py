@@ -9,6 +9,11 @@ from app.db.base import Base
 from app.db.session import engine
 from app.modules.maintenance.models import MaintenanceRecord
 from app.modules.audits.models import AuditRecord
+from app.modules.transfers.models import TransferRequest
+from app.modules.returns.models import ReturnRecord
+from app.modules.audits.models import AuditRecord, AuditCycle
+from app.modules.notifications.models import AppNotification
+from app.modules.activity_logs.models import ActivityLog
 # Ensure all tables exist
 Base.metadata.create_all(bind=engine)
 

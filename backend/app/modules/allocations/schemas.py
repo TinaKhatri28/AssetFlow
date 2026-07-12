@@ -5,6 +5,7 @@ from datetime import datetime
 class AllocationCreate(BaseModel):
     asset_id: int
     user_id: int
+    expected_return_date: Optional[datetime] = None
     notes: Optional[str] = None
 
 class AllocationReturn(BaseModel):
@@ -16,6 +17,7 @@ class AllocationResponse(BaseModel):
     user_id: int
     allocated_by_id: int
     allocation_date: datetime
+    expected_return_date: Optional[datetime]
     return_date: Optional[datetime]
     notes: Optional[str]
     is_active: bool

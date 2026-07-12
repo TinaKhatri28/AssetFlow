@@ -1,11 +1,12 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
-class NotificationResponse(BaseModel):
+class ActivityLogResponse(BaseModel):
     id: int
     user_id: int
-    message: str
-    is_read: bool
+    action: str
+    details: Optional[str] = None
     created_at: datetime
 
     class Config:
