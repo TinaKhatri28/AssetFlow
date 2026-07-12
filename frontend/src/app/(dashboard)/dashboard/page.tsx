@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 type Status = "Allocated" | "Available" | "Maintenance" | "Overdue";
 
@@ -120,25 +121,25 @@ export default function AssetFlowDashboard() {
             3 assets overdue for return — flagged for follow-up
           </span>
         </div>
-        <button className="px-4 py-2 bg-[#111110] text-white border-2 border-[#111110] rounded font-mono-jb font-bold text-xs uppercase shadow-[2px_2px_0_#ffffff] hover:bg-yellow hover:text-black hover:shadow-[2px_2px_0_#111110] transition-all">
+        <Link href="/allocations" className="px-4 py-2 bg-[#111110] text-white border-2 border-[#111110] rounded font-mono-jb font-bold text-xs uppercase shadow-[2px_2px_0_#ffffff] hover:bg-yellow hover:text-black hover:shadow-[2px_2px_0_#111110] transition-all">
           Review →
-        </button>
+        </Link>
       </div>
 
       {/* Quick actions */}
       <div className="flex flex-wrap gap-4">
-        <button className="neo-btn bg-[#ffd400] text-black font-mono-jb font-extrabold text-xs uppercase py-3 px-6 shadow-[4px_4px_0_#111110]">
+        <Link href="/assets?register=true" className="neo-btn bg-[#ffd400] text-black font-mono-jb font-extrabold text-xs uppercase py-3 px-6 shadow-[4px_4px_0_#111110] inline-block text-center">
           + Register Asset
-        </button>
-        <button className="neo-btn bg-white text-black font-mono-jb font-extrabold text-xs uppercase py-3 px-6 shadow-[4px_4px_0_#111110]">
+        </Link>
+        <Link href="/bookings" className="neo-btn bg-white text-black font-mono-jb font-extrabold text-xs uppercase py-3 px-6 shadow-[4px_4px_0_#111110] inline-block text-center">
           Book Resource
-        </button>
-        <button className="neo-btn bg-white text-black font-mono-jb font-extrabold text-xs uppercase py-3 px-6 shadow-[4px_4px_0_#111110]">
+        </Link>
+        <Link href="/allocations" className="neo-btn bg-white text-black font-mono-jb font-extrabold text-xs uppercase py-3 px-6 shadow-[4px_4px_0_#111110] inline-block text-center">
           Raise Request
-        </button>
-        <button className="neo-btn bg-[#111110] text-[#ffd400] font-mono-jb font-extrabold text-xs uppercase py-3 px-6 shadow-[4px_4px_0_#ffd400]">
+        </Link>
+        <Link href="/audits" className="neo-btn bg-[#111110] text-[#ffd400] font-mono-jb font-extrabold text-xs uppercase py-3 px-6 shadow-[4px_4px_0_#ffd400] inline-block text-center">
           Run Audit
-        </button>
+        </Link>
       </div>
 
       {/* Two columns: activity + asset tag */}
