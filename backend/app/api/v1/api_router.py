@@ -7,6 +7,9 @@ from app.modules.assets import routes as assets_routes
 from app.modules.assets import routes as assets_routes
 from app.modules.allocations import routes as allocations_routes
 from app.modules.bookings import routes as bookings_routes
+from app.modules.maintenance import routes as maintenance_routes
+from app.modules.audits import routes as audits_routes
+
 api_router = APIRouter()
 
 api_router.include_router(auth_routes.router, prefix="/auth", tags=["auth"])
@@ -18,5 +21,7 @@ api_router.include_router(assets_routes.router, prefix="/assets", tags=["assets"
 api_router.include_router(allocations_routes.router, prefix="/allocations", tags=["allocations"])
 from app.modules.dashboard import routes as dashboard_routes
 api_router.include_router(bookings_routes.router, prefix="/bookings", tags=["bookings"])
+api_router.include_router(maintenance_routes.router, prefix="/maintenance", tags=["maintenance"])
 # Add this to the very bottom of the file
 api_router.include_router(dashboard_routes.router, prefix="/dashboard", tags=["dashboard"])
+api_router.include_router(audits_routes.router, prefix="/audits", tags=["audits"])

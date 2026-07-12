@@ -7,7 +7,8 @@ from app.modules.bookings.models import Booking
 from app.core.security import get_password_hash
 from app.db.base import Base
 from app.db.session import engine
-
+from app.modules.maintenance.models import MaintenanceRecord
+from app.modules.audits.models import AuditRecord
 # Ensure all tables exist
 Base.metadata.create_all(bind=engine)
 
