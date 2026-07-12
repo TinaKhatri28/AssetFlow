@@ -34,80 +34,92 @@ interface Asset {
 }
 
 const STATS: Stat[] = [
-  { label: "Available", count: "128" },
-  { label: "Allocated", count: "76", highlight: true },
-  { label: "Under Maint.", count: "9" },
-  { label: "Active Bookings", count: "4" },
-  { label: "Pending Transfers", count: "3" },
-  { label: "Upcoming Returns", count: "12" },
+  { label: "Available", count: "-" },
+  { label: "Allocated", count: "-", highlight: true },
+  { label: "Under Maint.", count: "-" },
+  { label: "Active Bookings", count: "-" },
+  { label: "Pending Transfers", count: "-" },
+  { label: "Overdue Returns", count: "-" },
 ];
 
-const ACTIVITIES: Activity[] = [
-  { id: 1, title: "Laptop AF-0119", detail: "allocated to Priya Shah, IT dept", time: "12m ago" },
-  { id: 2, title: "Room B2", detail: "booking confirmed, 2:00–3:00 PM", time: "41m ago" },
-  { id: 3, title: "Projector AF-0062", detail: "maintenance resolved", time: "1h ago" },
-];
+const ACTIVITIES: Activity[] = [];
 
-const ASSETS: Asset[] = [
-  { tag: "AF-0231", name: "ThinkPad X1 Carbon", status: "Allocated", holder: "J. Mehta", location: "4th Floor — Bay 3" },
-  { tag: "AF-0119", name: "MacBook Air M2", status: "Allocated", holder: "Priya Shah", location: "2nd Floor — IT Desk" },
-  { tag: "AF-0062", name: "Epson Projector", status: "Available", holder: "—", location: "Storage — Rm 4" },
-  { tag: "AF-0045", name: "Toyota Innova — DL 4C 2291", status: "Overdue", holder: "R. Kapoor", location: "Offsite — Client Visit" },
-  { tag: "AF-0088", name: "HP LaserJet Pro", status: "Maintenance", holder: "—", location: "Service Center" },
-];
+const ASSETS: Asset[] = [];
 
 export default function AssetFlowDashboard() {
   const [stats, setStats] = useState<Stat[]>(STATS);
-  const [activities] = useState<Activity[]>(ACTIVITIES);
+  const [activities, setActivities] = useState<Activity[]>([]);
   const [assets, setAssets] = useState<Asset[]>(ASSETS);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Fetch Top Stats
-    fetch("http://127.0.0.1:8000/api/v1/dashboard/stats")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          setStats([
-            { label: "Available", count: String(data.total_assets - data.allocated_assets) },
-            { label: "Allocated", count: String(data.allocated_assets), highlight: true },
-            { label: "Under Maint.", count: String(data.maintenance_assets || 0) },
-            { label: "Active Bookings", count: String(data.active_bookings || 0) },
-            { label: "Pending Transfers", count: "0" },
-            { label: "Upcoming Returns", count: "0" },
-          ]);
-        }
-      })
-      .catch((err) => console.error("Failed to fetch stats", err));
+    Promise.all([
+      fetch("http://127.0.0.1:8000/api/v1/dashboard/stats").then(r => r.json()),
+      fetch("http://127.0.0.1:8000/api/v1/assets/").then(r => r.json()),
+      fetch("http://127.0.0.1:8000/api/v1/activity_logs/").then(r => r.json())
+    ]).then(([statsData, assetsData, activitiesData]) => {
+      // 1. Stats
+      if (statsData) {
+        setStats([
+          { label: "Available", count: String(statsData.total_assets - statsData.allocated_assets) },
+          { label: "Allocated", count: String(statsData.allocated_assets), highlight: true },
+          { label: "Under Maint.", count: String(statsData.maintenance_assets || 0) },
+          { label: "Active Bookings", count: String(statsData.active_bookings || 0) },
+          { label: "Pending Transfers", count: String(statsData.pending_transfers || 0) },
+          { label: "Overdue Returns", count: String(statsData.upcoming_returns || 0) },
+        ]);
+      }
+      
+      // 2. Assets
+      if (assetsData && Array.isArray(assetsData)) {
+        const mappedAssets = assetsData.map((a: any) => {
+          let mappedStatus = "Available";
+          if (a.status === "ALLOCATED") mappedStatus = "Allocated";
+          if (a.status === "UNDER_MAINTENANCE") mappedStatus = "Maintenance";
+          return {
+            tag: a.asset_tag,
+            name: a.name,
+            status: mappedStatus as Status,
+            holder: "-",
+            location: a.location || "Unassigned"
+          };
+        });
+        setAssets(mappedAssets);
+      }
 
-    // 2. Fetch Assets List
-    fetch("http://127.0.0.1:8000/api/v1/assets/")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && Array.isArray(data)) {
-          const mappedAssets = data.map((a: any) => {
-            let mappedStatus = "Available";
-            if (a.status === "ALLOCATED") mappedStatus = "Allocated";
-            if (a.status === "UNDER_MAINTENANCE") mappedStatus = "Maintenance";
-            
-            return {
-              tag: a.asset_tag,
-              name: a.name,
-              status: mappedStatus as Status,
-              holder: "-", // (Will build this connection in Phase 6)
-              location: a.location || "Unassigned"
-            };
-          });
-          setAssets(mappedAssets);
-        }
-      })
-      .catch((err) => console.error("Failed to fetch assets", err));
+      // 3. Activities
+      if (activitiesData && Array.isArray(activitiesData)) {
+        const mappedActivities = activitiesData.map((act: any) => ({
+          id: act.id,
+          title: act.action,
+          detail: act.details || "",
+          time: new Date(act.created_at).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+        }));
+        setActivities(mappedActivities);
+      }
+      
+      setLoading(false);
+    }).catch(err => {
+      console.error("Failed to fetch dashboard data", err);
+      setLoading(false);
+    });
   }, []);
+
 
   const filteredAssets = assets.filter((asset) =>
     asset.tag.toLowerCase().includes(search.toLowerCase()) ||
     asset.name.toLowerCase().includes(search.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-96 space-y-4">
+        <span className="h-8 w-8 rounded-full bg-[#ffd400] animate-ping" />
+        <span className="font-mono-jb font-bold uppercase tracking-widest text-[#726f66]">Loading Dashboard...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
@@ -160,7 +172,7 @@ export default function AssetFlowDashboard() {
         <div className="flex items-center gap-3">
           <span className="text-xl">⚠️</span>
           <span className="font-mono-jb font-extrabold text-sm uppercase text-[#111110]">
-            3 assets overdue for return — flagged for follow-up
+            {stats[5]?.count || "0"} assets overdue for return — flagged for follow-up
           </span>
         </div>
         <Link href="/allocations" className="px-4 py-2 bg-[#111110] text-white border-2 border-[#111110] rounded font-mono-jb font-bold text-xs uppercase shadow-[2px_2px_0_#ffffff] hover:bg-yellow hover:text-black hover:shadow-[2px_2px_0_#111110] transition-all">

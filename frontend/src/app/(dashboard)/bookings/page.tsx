@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Slot {
   time: string;
@@ -21,6 +21,15 @@ export default function BookingsPage() {
     { time: "12:00 PM", status: "available" },
     { time: "1:00 PM", status: "available" },
   ]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("assetflow_bookings");
+    if (saved) {
+      try {
+        setSlots(JSON.parse(saved));
+      } catch (e) {}
+    }
+  }, []);
 
   const handleOpenBookModal = (prefillTime?: string) => {
     setTimeRange(prefillTime ? `${prefillTime} - ${getNextHour(prefillTime)}` : "");
@@ -58,11 +67,12 @@ export default function BookingsPage() {
       });
 
       if (updated) {
+        localStorage.setItem("assetflow_bookings", JSON.stringify(nextSlots));
         return nextSlots;
       }
 
       // If it doesn't match an exact slot, append it as a new booked slot
-      return [
+      const finalSlots = [
         ...prevSlots,
         {
           time: matchHour || "Booked Slot",
@@ -71,6 +81,8 @@ export default function BookingsPage() {
           label: `Booked - ${teamName} - ${timeRange}`,
         },
       ];
+      localStorage.setItem("assetflow_bookings", JSON.stringify(finalSlots));
+      return finalSlots;
     });
 
     setShowModal(false);
@@ -113,13 +125,13 @@ export default function BookingsPage() {
               {/* Status block styling */}
               {slot.status === "booked" && (
                 <div className="bg-blue-100 text-blue-900 border-2 border-blue-900 p-4 rounded font-mono text-xs font-bold shadow-[2px_2px_0_#1e3a8a]">
-                  📘 {slot.label}
+                  {slot.label}
                 </div>
               )}
 
               {slot.status === "conflict" && (
                 <div className="bg-red-50 text-red-900 border-2 border-dashed border-red-500 p-4 rounded font-mono text-xs font-bold shadow-[2px_2px_0_#991b1b]">
-                  ⚠️ {slot.label}
+                  {slot.label}
                 </div>
               )}
 
@@ -128,7 +140,7 @@ export default function BookingsPage() {
                   onClick={() => handleOpenBookModal(slot.time)}
                   className="bg-paper text-zinc-600 border border-black border-dashed p-4 rounded font-mono text-xs font-bold hover:bg-yellow/10 cursor-pointer transition-colors"
                 >
-                  🟢 Available - click to book
+                  Available - click to book
                 </div>
               )}
             </div>
@@ -148,14 +160,20 @@ export default function BookingsPage() {
             <form onSubmit={handleConfirmBooking} className="space-y-4">
               <label className="block space-y-2">
                 <span className="text-xs font-bold uppercase font-mono">Time range:</span>
-                <input 
-                  type="text" 
-                  placeholder="e.g. 11:00 AM - 12:00 PM" 
-                  required 
+                <select
+                  required
                   value={timeRange}
                   onChange={(e) => setTimeRange(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-black rounded font-mono text-sm" 
-                />
+                  className="w-full px-4 py-2 border-2 border-black rounded font-mono text-sm bg-white"
+                >
+                  <option value="" disabled>Select a time slot</option>
+                  <option value="9:00 AM - 10:00 AM">9:00 AM - 10:00 AM</option>
+                  <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
+                  <option value="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</option>
+                  <option value="12:00 PM - 1:00 PM">12:00 PM - 1:00 PM</option>
+                  <option value="1:00 PM - 2:00 PM">1:00 PM - 2:00 PM</option>
+                  <option value="2:00 PM - 3:00 PM">2:00 PM - 3:00 PM</option>
+                </select>
               </label>
               <label className="block space-y-2">
                 <span className="text-xs font-bold uppercase font-mono">Team/Project Name:</span>

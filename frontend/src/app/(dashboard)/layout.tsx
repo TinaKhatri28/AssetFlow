@@ -180,7 +180,7 @@ export default function DashboardLayout({
             <div className="flex items-center gap-4">
               <div className="text-right">
                 <div className="text-[9px] font-mono-jb text-zinc-400 font-bold uppercase leading-none">Logged In As:</div>
-                <div className="text-xs font-bold leading-tight">Admin (Mock)</div>
+                <div className="text-xs font-bold leading-tight">Admin</div>
               </div>
               
               <button
