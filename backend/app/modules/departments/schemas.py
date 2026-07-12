@@ -9,6 +9,12 @@ class DepartmentBase(BaseModel):
 class DepartmentCreate(DepartmentBase):
     pass
 
+class DepartmentUpdate(BaseModel):
+    name: Optional[str] = None
+    head_user_id: Optional[int] = None
+    parent_id: Optional[int] = None
+    is_active: Optional[bool] = None
+
 class DepartmentResponse(DepartmentBase):
     id: int
     is_active: bool
